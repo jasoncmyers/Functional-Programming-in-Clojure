@@ -54,19 +54,25 @@
       false)))
 
 (defn title-length [book]
-  :-)
+  (count (:title book)))
 
 (defn author-count [book]
-  :-)
+  (count (:authors book)))
 
 (defn multiple-authors? [book]
-  :-)
+  (if (< 1 (author-count book))
+    true
+    false))
 
 (defn add-author [book new-author]
-  :-)
+  (let [auths (:authors book)
+        updated-auths (conj auths new-author)]
+    (assoc book :authors updated-auths)))
 
 (defn alive? [author]
-  :-)
+  (if (contains? author :death-year)
+    false
+    true))
 
 (defn element-lengths [collection]
   :-)
