@@ -104,16 +104,26 @@
     (+ (fib (- n 1)) (fib (- n 2)))))
 
 (defn my-repeat [how-many-times what-to-repeat]
-  [:-])
+  (if (>= 0 how-many-times)
+    '()
+    (cons what-to-repeat
+          (my-repeat (dec how-many-times) what-to-repeat))))
 
 (defn my-range [up-to]
-  [:-])
+  (if (> 1 up-to)
+    '()
+    (cons (dec up-to) (my-range (dec up-to)))))
 
 (defn tails [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '(())
+    (cons (seq a-seq) (tails (rest a-seq)))))
 
 (defn inits [a-seq]
-  [:-])
+  (let [b-seq (reverse a-seq)]
+    (if (empty? b-seq)
+      '(())
+      (cons (seq a-seq) (inits (reverse (rest b-seq)))))))
 
 (defn rotations [a-seq]
   [:-])
