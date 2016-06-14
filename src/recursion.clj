@@ -120,22 +120,34 @@
     (cons (seq a-seq) (tails (rest a-seq)))))
 
 (defn inits [a-seq]
-  (let [b-seq (reverse a-seq)]
-    (if (empty? b-seq)
-      '(())
-      (cons (seq a-seq) (inits (reverse (rest b-seq)))))))
+  (reverse (map reverse
+                (tails (reverse a-seq)))))
 
 (defn rotations [a-seq]
-  [:-])
+  (let [temp
+        (rest (map concat (tails a-seq) (inits a-seq)))]
+    (if (empty? temp)
+      '(())
+      temp)))
 
 (defn my-frequencies-helper [freqs a-seq]
-  [:-])
+  (if (empty? a-seq)
+    freqs
+    (let [new-freq (if (contains? freqs (first a-seq))
+                     (inc (get freqs (first a-seq)))
+                     1)]
+      (my-frequencies-helper
+        (assoc freqs (first a-seq) new-freq)
+        (rest a-seq)))))
 
 (defn my-frequencies [a-seq]
-  [:-])
+  (my-frequencies-helper {} a-seq))
 
 (defn un-frequencies [a-map]
-  [:-])
+  (if (empty? a-map)
+    '()
+    (concat (repeat (val (first a-map)) (key (first a-map)))
+            (un-frequencies (rest a-map)))))
 
 (defn my-take [n coll]
   [:-])
