@@ -163,7 +163,7 @@
 
 (defn halve [a-seq]
   (let [pivot (int (/ (count a-seq) 2))]
-    (cons (my-take pivot a-seq) (cons (my-drop pivot a-seq) '()))))
+    (seq [(my-take pivot a-seq) (my-drop pivot a-seq)])))
 
 (defn seq-merge [a-seq b-seq]
   (cond
@@ -184,8 +184,17 @@
     (let [seq-1 (first (halve a-seq)) seq-2 (second (halve a-seq))]
       (seq-merge (merge-sort seq-1) (merge-sort seq-2)))))
 
+(defn monotonic? [a-seq]
+  (or
+    (apply <= a-seq)
+    (apply >= a-seq)))
+
 (defn split-into-monotonics [a-seq]
-  [:-])
+  (if (monotonic? a-seq)
+    (seq [a-seq])
+    (let [mono-seqs (take-while monotonic? (rest (inits a-seq)))
+          longest-mono (first (reverse mono-seqs))]
+      (cons longest-mono (split-into-monotonics (drop (count longest-mono) a-seq))))))
 
 (defn permutations [a-set]
   [:-])
