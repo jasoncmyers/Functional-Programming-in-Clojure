@@ -185,14 +185,16 @@
       (seq-merge (merge-sort seq-1) (merge-sort seq-2)))))
 
 (defn monotonic? [a-seq]
-  (or
-    (apply <= a-seq)
-    (apply >= a-seq)))
+  (if (empty? a-seq)
+    true
+    (or
+      (apply <= a-seq)
+      (apply >= a-seq))))
 
 (defn split-into-monotonics [a-seq]
   (if (monotonic? a-seq)
     (seq [a-seq])
-    (let [mono-seqs (take-while monotonic? (rest (inits a-seq)))
+    (let [mono-seqs (take-while monotonic? (inits a-seq))
           longest-mono (first (reverse mono-seqs))]
       (cons longest-mono (split-into-monotonics (drop (count longest-mono) a-seq))))))
 
