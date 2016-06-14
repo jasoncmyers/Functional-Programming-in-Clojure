@@ -150,19 +150,39 @@
             (un-frequencies (rest a-map)))))
 
 (defn my-take [n coll]
-  [:-])
+  (if (or (empty? coll) (>= 0 n))
+    '()
+    (cons (first coll) (my-take (dec n) (rest coll)))))
 
 (defn my-drop [n coll]
-  [:-])
+  (if (empty? coll)
+    '()
+    (if (< 0 n)
+      (my-drop (dec n) (rest coll))
+      (seq coll))))
 
 (defn halve [a-seq]
-  [:-])
+  (let [pivot (int (/ (count a-seq) 2))]
+    (cons (my-take pivot a-seq) (cons (my-drop pivot a-seq) '()))))
 
 (defn seq-merge [a-seq b-seq]
-  [:-])
+  (cond
+    (and (empty? a-seq) (empty? b-seq))
+      '()
+    (empty? a-seq) (seq b-seq)
+    (empty? b-seq) (seq a-seq)
+    (< (first a-seq) (first b-seq))
+      (cons (first a-seq) (seq-merge (rest a-seq) b-seq))
+    :else
+      (cons (first b-seq) (seq-merge a-seq (rest b-seq)))))
 
 (defn merge-sort [a-seq]
-  [:-])
+  (if (> 2 (count a-seq))
+    (if (empty? a-seq)
+      '()
+      a-seq)
+    (let [seq-1 (first (halve a-seq)) seq-2 (second (halve a-seq))]
+      (seq-merge (merge-sort seq-1) (merge-sort seq-2)))))
 
 (defn split-into-monotonics [a-seq]
   [:-])
