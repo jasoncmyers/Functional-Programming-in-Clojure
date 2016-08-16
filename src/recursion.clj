@@ -204,3 +204,11 @@
 (defn powerset [a-set]
   [:-])
 
+(defn in-seq?
+  "True if a-seq contains n"
+  [a-seq n]
+  (if (some #{n} a-seq)
+      true
+      false))
+
+
