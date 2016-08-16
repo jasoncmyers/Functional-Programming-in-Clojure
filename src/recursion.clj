@@ -198,8 +198,18 @@
           longest-mono (first (reverse mono-seqs))]
       (cons longest-mono (split-into-monotonics (drop (count longest-mono) a-seq))))))
 
+(declare permutations-helper)
 (defn permutations [a-set]
-  [:-])
+  (cond
+    (empty? a-set) '(())
+    (singleton? a-set) (seq [a-set])
+    :else  (apply concat (map permutations-helper (rotations a-set)))))
+
+(defn permutations-helper [a-seq]
+  (map (fn [next-perms]
+         (concat [(first a-seq)] next-perms))
+       (permutations (rest a-seq))))
+
 
 (defn powerset [a-set]
   [:-])
