@@ -210,15 +210,10 @@
          (concat [(first a-seq)] next-perms))
        (permutations (rest a-seq))))
 
-
 (defn powerset [a-set]
-  [:-])
-
-(defn in-seq?
-  "True if a-seq contains n"
-  [a-seq n]
-  (if (some #{n} a-seq)
-      true
-      false))
+  (if (empty? a-set)
+    #{#{}}
+    (let [pset-rest (powerset (rest a-set))]
+      (clojure.set/union pset-rest (map #(conj % (first a-set)) pset-rest)))))
 
 
