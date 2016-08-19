@@ -52,8 +52,21 @@
 
 
 (defn fast-fibo [n]
-  ":(")
+  (loop [Fn-1 1
+         Fn 0
+         n n]
+    (if (== n 0)
+      Fn
+      (recur Fn (+ Fn Fn-1) (dec n)))))
 
 (defn cut-at-repetition [a-seq]
-  [":("])
+  (loop [before-cut []
+         seen #{}
+         a-seq a-seq]
+    (if (empty? a-seq)
+      before-cut
+      (let [elem (first a-seq)]
+        (if (contains? seen elem)
+          before-cut
+          (recur (conj before-cut elem) (conj seen elem) (rest a-seq)))))))
 
