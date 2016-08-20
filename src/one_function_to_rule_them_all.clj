@@ -1,10 +1,14 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (let [add-space (fn [string1 string2]
+                      (str string1 " " string2))]
+      (reduce add-space a-seq))))
 
 (defn my-interpose [x a-seq]
   [:-])
