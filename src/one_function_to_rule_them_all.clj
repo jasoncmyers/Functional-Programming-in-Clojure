@@ -11,7 +11,11 @@
       (reduce add-space a-seq))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '()
+    (let [add-spacer (fn [a b]
+                       (conj a x b))]
+      (reduce add-spacer [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
   :-)
