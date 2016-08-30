@@ -59,10 +59,15 @@
 
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set elem]
+                 (if (contains? a-set elem)
+                   (disj a-set elem)
+                   (conj a-set elem)))]
+    (reduce toggle #{} a-seq)))
+
 
 (defn minus [x]
   :-)
