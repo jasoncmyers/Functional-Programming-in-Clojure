@@ -69,17 +69,27 @@
     (reduce toggle #{} a-seq)))
 
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+  (count params))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& params]
+  (reduce * 1 params))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([p1] (fn [x] (p1 x)))
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+  ([p1 p2 & more]
+    (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+   (let [helper (fn [a-seq elem]
+                   (conj a-seq (f elem)))]
+     (seq (reduce helper [] a-seq))))
+  ([f a-seq & colls]
+    ))
