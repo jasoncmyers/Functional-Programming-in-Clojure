@@ -91,5 +91,9 @@
    (let [helper (fn [a-seq elem]
                    (conj a-seq (f elem)))]
      (seq (reduce helper [] a-seq))))
-  ([f a-seq & colls]
-    ))
+  ([f a-seq & more]
+   (let [seqs (cons a-seq more)]
+     (if (some empty? seqs)
+       '()
+       (cons (apply f (my-map first seqs))
+                  (apply my-map f (my-map rest seqs)))))))
