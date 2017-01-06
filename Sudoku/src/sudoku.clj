@@ -5,8 +5,8 @@
 
 (def all-values #{1, 2, 3, 4, 5, 6, 7, 8, 9})
 
-;; boards need to be commented out for the midje tests to run
-;(comment
+;; boards for testing; must be commented out for the midje tests to run
+(comment
   (def sudoku-board
     (board [[5 3 0 0 7 0 0 0 0]
             [6 0 0 1 9 5 0 0 0]
@@ -28,7 +28,7 @@
             [9 6 1 5 3 7 2 8 4]
             [2 8 7 4 1 9 6 3 5]
             [3 4 5 2 8 6 1 7 9]]))
- ;)
+ )
 (defn value-at [board coord]
   (get-in board coord))
 
@@ -71,30 +71,43 @@
          (row-values board [n 0]))))
 
 (defn valid-rows? [board]
-  nil)
+  (every? #(= all-values %) (rows board)))
 
 (defn cols [board]
   (vec (for [n (range 0 9)]
          (col-values board [0 n]))))
 
 (defn valid-cols? [board]
-  nil)
+  (every? #(= all-values %) (cols board)))
 
 (defn blocks [board]
   (vec (for [n (coord-pairs [0 3 6])]
          (block-values board n))))
 
 (defn valid-blocks? [board]
-  nil)
+  (every? #(= all-values %) (blocks board)))
 
 (defn valid-solution? [board]
-  nil)
+  (and (valid-rows? board) (valid-cols? board) (valid-blocks? board)))
 
 (defn set-value-at [board coord new-value]
-  nil)
+  (assoc-in board coord new-value))
 
 (defn find-empty-point [board]
-  nil)
+  (loop [row 0
+         col 0]
+    (cond (not (has-value? board [row col])) [row col]
+          (= col 8) (if (= row 8) nil
+                                  (recur (inc row) 0))
+          :else (recur row (inc col)))))
 
 (defn solve [board]
-  nil)
+  (if (filled? board)
+    (if (valid-solution? board)
+      board
+      [])
+    (let [empty-spot (find-empty-point board)
+          valid-values (valid-values-for board empty-spot)]
+      (for [test-value valid-values
+            solution (solve (set-value-at board empty-spot test-value))]
+        solution))))
